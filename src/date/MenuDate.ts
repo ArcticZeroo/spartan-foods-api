@@ -5,6 +5,7 @@ export default class MenuDate {
 
     constructor(initial?: Date) {
         this._date = initial || new Date();
+        this._date.setHours(12, 0, 0, 0);
     }
 
     get date() {
