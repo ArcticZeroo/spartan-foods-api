@@ -2,7 +2,7 @@ import paths from '../config/paths';
 import IDiningHallBase from '../models/dining-halls/IDiningHallBase';
 import IParser from '../models/IParser';
 
-const NAME_FROM_URL = new RegExp(`^${paths.menu}(.+?)/all`);
+const NAME_FROM_URL = new RegExp(`^${paths.eatAtState.menu}(.+?)/all`);
 
 export default class HallListParser implements IParser<IDiningHallBase[]> {
     parse(html: string): IDiningHallBase[] {
@@ -23,7 +23,7 @@ export default class HallListParser implements IParser<IDiningHallBase[]> {
 
             // If the URL doesn't start with the dining hall URL, it's another kind of page
             // such as starbucks, food truck, etc.
-            if (!url.toLowerCase().includes(paths.menu)) {
+            if (!url.toLowerCase().includes(paths.eatAtState.menu)) {
                 return;
             }
 
