@@ -1,3 +1,4 @@
+import { Response } from 'superagent';
 import paths from '../../config/paths';
 import MenuDate from '../../date/MenuDate';
 import { Meal } from '../../enum/Meal';
@@ -6,7 +7,7 @@ import IDiningHallMenu from '../../models/dining-halls/menu/IDiningHallMenu';
 import IMenuSelection from '../../models/dining-halls/menu/IMenuSelection';
 import IMenusForDay from '../../models/dining-halls/menu/IMenusForDay';
 import StringUtil from '../../util/StringUtil';
-import retryingRequest from './../retryingRequest';
+import RestClient from '../RestClient';
 import IFoodClient from './IFoodClient';
 
 export default class FoodFrozorClient extends IFoodClient {
@@ -18,36 +19,38 @@ export default class FoodFrozorClient extends IFoodClient {
         return StringUtil.joinUrl(paths.frozor.base, paths.frozor.api, paths.frozor.msu, paths.frozor.dining, paths.frozor.menu, diningHall.searchName, menuDate.getFormatted(), meal.toString());
     }
 
+    private restClient: RestClient = new RestClient();
+
     async retrieveMenu(selection: IMenuSelection): Promise<IDiningHallMenu> {
-        let body: IDiningHallMenu;
+        let response: Response;
         try {
-            body = await retryingRequest(FoodFrozorClient.getRequestUrlForSingle(selection), { type: 'json' });
+            response = await this.restClient.get(FoodFrozorClient.getRequestUrlForSingle(selection));
         } catch (e) {
             throw e;
         }
 
-        return body;
+        return response.body;
     }
 
     async retrieveSingleHallMenusForDay(diningHall: IDiningHallBase, menuDate: MenuDate): Promise<IDiningHallMenu[]> {
-        let body: IDiningHallMenu[];
+        let response: Response;
         try {
-            body = await retryingRequest(FoodFrozorClient.getRequestUrlForSingle({ diningHall, menuDate, meal: 'all' }), { type: 'json' });
+            response = await this.restClient.get(FoodFrozorClient.getRequestUrlForSingle({ diningHall, menuDate, meal: 'all' }));
         } catch (e) {
             throw e;
         }
 
-        return body;
+        return response.body;
     }
 
     async retrieveAllHallMenusForDay(diningHalls: IDiningHallBase[], menuDate: MenuDate): Promise<IMenusForDay> {
-        let body: IMenusForDay;
+        let response: Response;
         try {
-            body = await retryingRequest(FoodFrozorClient.getRequestUrlForEntireDay(menuDate), { type: 'json' });
+            response = await this.restClient.get(FoodFrozorClient.getRequestUrlForEntireDay(menuDate));
         } catch (e) {
             throw e;
         }
 
-        return body;
+        return response.body;
     }
 }

@@ -1,22 +1,15 @@
-import superagent = require('superagent');
-import { Response } from 'superagent';
+import request, { IRequestParams } from './request';
 
-interface IRequestParams {
+interface IRetryingRequestParams extends IRequestParams {
     attempts?: number;
     type?: string;
 }
 
-export default async function retryingRequest<T = string>(url: string, { attempts = 2, type }: IRequestParams = {}): Promise<T> {
-    let response: Response;
+export default async function retryingRequest<T = string>(url: string, options: IRetryingRequestParams = {}): Promise<T> {
+    let { attempts = 2, type } = options;
 
     try {
-        const agent = superagent.get(url);
-
-        if (type) {
-            agent.type(type);
-        }
-
-        response = await agent;
+        return await request(url, options)
     } catch (e) {
         if (attempts < 1) {
             throw e;
@@ -26,6 +19,4 @@ export default async function retryingRequest<T = string>(url: string, { attempt
 
         return retryingRequest(url, { attempts, type });
     }
-
-    return response.body;
 }
