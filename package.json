@@ -1,0 +1,32 @@
+{
+  "name": "@arcticzeroo/spartan-foods-api",
+  "version": "1.0.0",
+  "description": "Spartan Foods Web Scraper API",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArcticZeroo/spartan-foods-api.git"
+  },
+  "author": "spencer@frozor.io",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ArcticZeroo/spartan-foods-api/issues"
+  },
+  "homepage": "https://github.com/ArcticZeroo/spartan-foods-api#readme",
+  "devDependencies": {
+    "@types/cheerio": "^0.22.10",
+    "@types/dateformat": "^3.0.0",
+    "@types/node": "^10.12.18",
+    "@types/superagent": "^3.8.6",
+    "typescript": "^3.2.4"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "dateformat": "^3.0.3",
+    "krispy": "^1.0.0",
+    "superagent": "^4.1.0"
+  }
+}
