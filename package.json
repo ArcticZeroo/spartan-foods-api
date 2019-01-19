@@ -1,6 +1,6 @@
 {
   "name": "@arcticzeroo/spartan-foods-api",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Spartan Foods Web Scraper API",
   "main": "dist/index.js",
   "scripts": {
